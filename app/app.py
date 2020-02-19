@@ -42,15 +42,16 @@ def login():
 
 @app.route('/odoo/v1/ludopaths/q/check', methods=['POST'])
 def validation():
-    if not request.json or not ('document' in request.json):
+    if not request.json:
         abort(400)
+    
     re_ = request.environ.get('HTTP_AUTHORIZATION', False)
     print(f"HTTP_AUTHORIZATION: {request.environ.get('HTTP_AUTHORIZATION', 'Ninguno')}")
     print(f"request.json: {request.json}")
     if re_:
         token_ = re_.split(' ')[1]
         if token_validate(token_):
-            document = request.json.get('document')
+            document = request.json.get('document', False) or request.json.get('dni', False) 
             partner_ = fe.get_ludopata(document)
             if partner_:
                 return jsonify({
