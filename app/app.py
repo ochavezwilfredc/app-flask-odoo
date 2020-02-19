@@ -13,11 +13,15 @@ fe = Fencri()
 @app.route('/odoo/v1/authenticate', methods=['POST'])
 def login():
     # limpiar la session
-    if not request.json or not ('login' and 'password' and 'rememberMe' in request.json):
+    if not request.json:
         abort(400)
-    login_ = request.json.get('login')
+    login_ = request.json.get('login') or request.json.get('username')
     password_ = request.json.get('password')
-    rememberMe_ = request.json.get('rememberMe')
+    rememberMe_ = request.json.get('rememberMe', True)
+
+    if not login_ or not password_:
+        abort(400)
+
     logindata = {
         'login': login_,
         'password': password_,
