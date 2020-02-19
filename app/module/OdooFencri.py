@@ -1,10 +1,11 @@
 import odoorpc
+import os
 
-IP_DB_SERVER = "fencri.altabpo.com"
-PORT_DB_SERVER = "8069"
-USER_DB_SERVER = "admin"
-PASSWORD_DB_SERVER = "admin"
-DB_NAME = "casinodev"
+IP_DB_SERVER = os.environ.get('ODOO_HOST', 'fencri.altabpo.com')
+PORT_DB_SERVER = os.environ.get('ODOO_PORT', '8069')
+USER_DB_SERVER = os.environ.get('ODOO_USER', 'admin')
+PASSWORD_DB_SERVER = os.environ.get('ODOO_PASSWORD', 'admin')
+DB_NAME = os.environ.get('ODOO_DB', 'casinodev')
 
 
 class Fencri:
