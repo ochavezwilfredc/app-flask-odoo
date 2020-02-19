@@ -31,7 +31,8 @@ def login():
     token = user.login(logindata)
     if token:
         return jsonify({
-            "token_id": token['token_id']
+            "token_id": token['token_id'],
+            "ext_user": token["ext_user"]
         })
     else:
         return jsonify({
@@ -44,28 +45,39 @@ def login():
 def validation():
     if not request.json:
         abort(400)
-    
-    re_ = request.environ.get('HTTP_AUTHORIZATION', False)
-    print(f"HTTP_AUTHORIZATION: {request.environ.get('HTTP_AUTHORIZATION', 'Ninguno')}")
-    print(f"request.json: {request.json}")
-    if re_:
-        token_ = re_.split(' ')[1]
-        if token_validate(token_):
-            document = request.json.get('document', False) or request.json.get('dni', False) 
-            partner_ = fe.get_ludopata(document)
-            if partner_:
-                return jsonify({
-                    "result": "found"
-                })
-            else:
-                return jsonify({
-                    "result": "not_found"
-                })
-        else:
-            return jsonify({
-                "state": False,
-                "message": "Token incorrecto!"
-            })
+    document = request.json.get('document', False) or request.json.get('dni', False) 
+    user = request.json.get('user')
+    partner_ = fe.get_ludopata(document)
+    if partner_:
+        result = 'found'
+    else:
+        result = 'not_found'
+    fe.save_ludopath_log(user, document, result)
+
+    return jsonify({
+        "result": result
+    })
+    # re_ = request.environ.get('HTTP_AUTHORIZATION', False)
+    # print(f"HTTP_AUTHORIZATION: {request.environ.get('HTTP_AUTHORIZATION', 'Ninguno')}")
+    # print(f"request.json: {request.json}")
+    # if re_:
+    #     token_ = re_.split(' ')[1]
+    #     if token_validate(token_):
+    #         document = request.json.get('document', False) or request.json.get('dni', False) 
+    #         partner_ = fe.get_ludopata(document)
+    #         if partner_:
+    #             return jsonify({
+    #                 "result": "found"
+    #             })
+    #         else:
+    #             return jsonify({
+    #                 "result": "not_found"
+    #             })
+    #     else:
+    #         return jsonify({
+    #             "state": False,
+    #             "message": "Token incorrecto!"
+    #         })
 
     else:
         return jsonify({

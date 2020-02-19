@@ -32,3 +32,16 @@ class Fencri:
         if partner_id:
             partner = self.odoo.execute('res.partner', 'read', partner_id, ['id', 'name'])
             return partner
+
+    def save_ludopath_log(self, user, document, result):
+        self.odoo.execute('casino.ludoo.log', 'create_from_ui', {
+            'query': document,
+            'user': user,
+            'result': result
+        })
+        # model = self.odoo.env['casino.ludoo.log']
+        # model.create({
+        #     'query': document,
+        #     'user': user,
+        #     'result': result
+        # })
