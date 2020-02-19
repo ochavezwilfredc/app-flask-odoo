@@ -45,6 +45,8 @@ def validation():
     if not request.json or not ('document' in request.json):
         abort(400)
     re_ = request.environ.get('HTTP_AUTHORIZATION', False)
+    print(f"HTTP_AUTHORIZATION: {request.environ.get('HTTP_AUTHORIZATION', 'Ninguno')}")
+    print(f"request.json: {request.json}")
     if re_:
         token_ = re_.split(' ')[1]
         if token_validate(token_):
