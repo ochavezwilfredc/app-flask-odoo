@@ -52,6 +52,10 @@ def validation():
         result = 'found'
     else:
         result = 'not_found'
+    if not user:
+        with open('/home/linux/Documentos/fencri.ludoo.logs', 'a') as file:
+            file.write(f'{user}|{document}|{result}')
+        raise Exception('No se encuentran credenciales activas')
     fe.save_ludopath_log(user, document, result)
 
     return jsonify({
