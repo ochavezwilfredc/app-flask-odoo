@@ -1,6 +1,6 @@
 import odoorpc
 
-IP_DB_SERVER = "200.60.121.142"
+IP_DB_SERVER = "fencri.altabpo.com"
 PORT_DB_SERVER = "8069"
 USER_DB_SERVER = "admin"
 PASSWORD_DB_SERVER = "admin"
