@@ -79,11 +79,11 @@ def validation():
     #             "message": "Token incorrecto!"
     #         })
 
-    else:
-        return jsonify({
-            "state": False,
-            "message": "Verificar el tocken de acceso"
-        })
+    # else:
+    #     return jsonify({
+    #         "state": False,
+    #         "message": "Verificar el tocken de acceso"
+    #     })
 
 
 def token_validate(token_):
